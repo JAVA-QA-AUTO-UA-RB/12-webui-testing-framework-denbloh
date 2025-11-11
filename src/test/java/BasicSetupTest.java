@@ -5,6 +5,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
+import java.time.Duration;
+
 public class BasicSetupTest {
 
 
@@ -23,10 +25,11 @@ public class BasicSetupTest {
         ChromeOptions options = new ChromeOptions();
 
 
-        options.addArguments("--incognito");
+      options.addArguments("--incognito");
 
         browser = new ChromeDriver(options);
         browser.manage().window().maximize();
+        browser.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
     }
 
     // В цих методах відбувається ініціалізація браузера перед виконанням тестових методів
