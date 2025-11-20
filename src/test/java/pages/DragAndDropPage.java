@@ -1,30 +1,24 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class DragAndDropPage {
     private final WebDriver driver;
+    private final By columnA = By.id("column-a");
+    private final By columnB = By.id("column-b");
 
-    @FindBy(id = "column-a")
-    private WebElement columnA;
-
-    @FindBy(id = "column-b")
-    private WebElement columnB;
-
-    public DragAndDropPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-    }
+    public DragAndDropPage(WebDriver driver) { this.driver = driver; }
 
     public void dragAtoB() {
-        new Actions(driver).dragAndDrop(columnA, columnB).perform();
+        WebElement a = driver.findElement(columnA);
+        WebElement b = driver.findElement(columnB);
+        new Actions(driver).dragAndDrop(a, b).perform();
     }
 
-    public String getColumnAText() {
-        return columnA.findElement(org.openqa.selenium.By.tagName("header")).getText();
+    public String getColumnAHeader() {
+        return driver.findElement(columnA).findElement(By.tagName("header")).getText();
     }
 }

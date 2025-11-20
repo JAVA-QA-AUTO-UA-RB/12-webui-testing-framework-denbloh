@@ -1,29 +1,15 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class SecureAreaPage {
     private final WebDriver driver;
+    private final By flash = By.id("flash");
+    private final By logout = By.cssSelector(".icon-signout");
 
-    @FindBy(css = "#flash")
-    private WebElement message;
+    public SecureAreaPage(WebDriver driver) { this.driver = driver; }
 
-    @FindBy(css = ".icon-signout")
-    private WebElement logoutButton;
-
-    public SecureAreaPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-    }
-
-    public String getMessageText() {
-        return message.getText();
-    }
-
-    public void logout() {
-        logoutButton.click();
-    }
+    public String getFlashText() { return driver.findElement(flash).getText(); }
+    public void logout() { driver.findElement(logout).click(); }
 }

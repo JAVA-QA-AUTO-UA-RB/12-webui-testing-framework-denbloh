@@ -1,35 +1,30 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
 public class AddRemoveElementsPage {
     private final WebDriver driver;
+    private final By addBtn = By.cssSelector("button[onclick='addElement()']");
+    private final By deleteBtns = By.cssSelector("button.added-manually");
 
-    @FindBy(css = "button[onclick='addElement()']")
-    private WebElement addButton;
+    public AddRemoveElementsPage(WebDriver driver) { this.driver = driver; }
 
-    @FindBy(css = "button.added-manually")
-    private List<WebElement> deleteButtons;
-
-    public AddRemoveElementsPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+    public void addElements(int n) {
+        for (int i = 0; i < n; i++) driver.findElement(addBtn).click();
     }
 
-    public void clickAddButton(int times) {
-        for (int i = 0; i < times; i++) addButton.click();
+    public int deleteButtonsCount() {
+        List<?> els = driver.findElements(deleteBtns);
+        return els.size();
     }
 
-    public int getDeleteButtonsCount() {
-        return deleteButtons.size();
-    }
-
-    public void removeAllElements() {
-        for (WebElement btn : deleteButtons) btn.click();
+    public void removeAll() {
+        List<?> els = driver.findElements(deleteBtns);
+        while (driver.findElements(deleteBtns).size() > 0) {
+            driver.findElements(deleteBtns).get(0).click();
+        }
     }
 }

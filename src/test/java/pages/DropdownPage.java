@@ -1,30 +1,20 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class DropdownPage {
     private final WebDriver driver;
+    private final By select = By.id("dropdown");
 
-    @FindBy(id = "dropdown")
-    private WebElement dropdown;
+    public DropdownPage(WebDriver driver) { this.driver = driver; }
 
-    @FindBy(css = "#dropdown option:checked")
-    private WebElement selectedOption;
-
-    public DropdownPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-    }
-
-    public void selectOption2() {
-        dropdown.click();
-        dropdown.findElement(org.openqa.selenium.By.cssSelector("option[value='2']")).click();
+    public void selectByValue(String value) {
+        driver.findElement(select).click();
+        driver.findElement(By.cssSelector("#dropdown option[value='2']")).click();
     }
 
     public String getSelectedText() {
-        return selectedOption.getText();
+        return driver.findElement(By.cssSelector("#dropdown option:checked")).getText();
     }
 }

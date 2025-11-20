@@ -1,21 +1,19 @@
-package base;
+package hooks;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 
 import java.time.Duration;
 
-public class BaseTest {
-    protected WebDriver driver;
-    protected WebDriverWait wait;
-    protected final String BASE_URL = "https://the-internet.herokuapp.com/";
+public class WebHooks {
+    public static WebDriver driver;
 
-    @BeforeClass
+    @Before
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
@@ -23,11 +21,13 @@ public class BaseTest {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-        wait = new WebDriverWait(driver, Duration.ofSeconds(3));
     }
 
-    @AfterClass(alwaysRun = true)
-    public void tearDown() {
-        if (driver != null) driver.quit();
+    @After
+    public void tearDown(Scenario scenario) {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
     }
 }

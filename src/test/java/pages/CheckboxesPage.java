@@ -1,29 +1,24 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
 public class CheckboxesPage {
     private final WebDriver driver;
+    private final By checkboxes = By.cssSelector("form#checkboxes input[type='checkbox']");
 
-    @FindBy(css = "form#checkboxes input[type='checkbox']")
-    private List<WebElement> checkboxes;
-
-    public CheckboxesPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
-    }
+    public CheckboxesPage(WebDriver driver) { this.driver = driver; }
 
     public void selectAll() {
-        for (WebElement box : checkboxes)
-            if (!box.isSelected()) box.click();
+        List<WebElement> boxes = driver.findElements(checkboxes);
+        for (WebElement box : boxes) if (!box.isSelected()) box.click();
     }
 
-    public boolean areAllSelected() {
-        return checkboxes.stream().allMatch(WebElement::isSelected);
+    public boolean allSelected() {
+        List<WebElement> boxes = driver.findElements(checkboxes);
+        return boxes.stream().allMatch(WebElement::isSelected);
     }
 }
